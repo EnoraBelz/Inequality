@@ -1,0 +1,11 @@
+Package: inequalityQuantile
+Type: Package
+Title: Estimation of Inequality Measures from Quantile Data
+Version: 0.1.0
+Author: Enora Belz
+Maintainer: Enora Belz <enorabelz@gmail.com>
+Description: Use of GB2 distribution, Conditional Expectations and Lorenz curve approximations to Estimate Inequality Measures from Quantile data.
+License: R version 3.5.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
