@@ -11,6 +11,9 @@ A R package was written with all functions used.
 library(devtools)
 devtools::install_github("EnoraBelz/Inequality")
 library(inequalityQuantile)
+
+library(tidyverse)
+library(binequality)
 ```
 
 Parisian iris data : Bel Air 5
@@ -55,7 +58,7 @@ LC_BelAir5 = compute_LC(ID=tabulated_BelAir5$iris,
                         method = "CondExp")
 ```
 
-    ## Time difference of 0.1017261 secs
+    ## Time difference of 0.1575758 secs
     ## for GB2 fit across 1 distributions 
     ## 
 
