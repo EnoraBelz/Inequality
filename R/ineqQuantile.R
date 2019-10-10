@@ -27,7 +27,7 @@ mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
     q2=Q2[i]
     p1=pGB2(q1,mu,sigma,nu,tau)
     p2=pGB2(q2,mu,sigma,nu,tau)
-    E[i]= stats:integrate(f,lower=q1,upper=q2)$value
+    E[i]= stats::integrate(f,lower=q1,upper=q2)$value
   }
 
   q1= Q1[n+1]
