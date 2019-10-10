@@ -2,26 +2,26 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{Sarabia}
 \alias{Sarabia}
-\title{Functional form  Sarabia (1997)}
+\title{Functional form of Lorenz curve :  Sarabia (1997)}
 \usage{
 Sarabia(p, pi1, pi2, a1, a2)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{pi1}{numeric}
+\item{pi1}{numeric, between 0 and 1}
 
-\item{pi2}{numeric}
+\item{pi2}{numeric, between 0 and 1}
 
-\item{a1}{numeric}
+\item{a1}{numeric, greater than 1}
 
-\item{a2}{numeric}
+\item{a2}{numeric, between 0 and 1}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The  Sarabia (1997)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  pi1*p + pi2*p^a1 + (1 - pi1 - pi2)*(1 - (1-p)^a2)}  where \eqn{0 \le pi1, pi2 \le 1, a1 \ge  1} and \eqn{0 < a2 < 1}.
 }
 \description{
-Functional form  Sarabia (1997)
+Functional form of Lorenz curve :  Sarabia (1997)
 }
 \examples{
 Sarabia(0.5, 0.1, 0.7, 1.8, 0.3)

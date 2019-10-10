@@ -7,10 +7,10 @@
 Gini_Chotikapanich(k)
 }
 \arguments{
-\item{k}{numeric}
+\item{k}{numeric, positive}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Chotikapanich (1993)
 }
 \description{
 Gini of the functional form  Chotikapanich (1993)

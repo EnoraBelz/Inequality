@@ -23,7 +23,7 @@ run_compute_LC(ID, p, bound_min, bound_max, nb, method = "CondExp",
 \item{whichpareto}{numeric, probability from which pareto tail is assumed}
 }
 \value{
-A dataframe with the bounds, the mean, the cumulative income share and the cumulative population share.
+A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
 }
 \description{
 Means of the bins according the conditional expectation or midpoint methods for several areas
@@ -33,5 +33,5 @@ data("tabulated_income")
 run_compute_LC(ID=tabulated_income$iris, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measure from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 }

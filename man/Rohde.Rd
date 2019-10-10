@@ -2,20 +2,20 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{Rohde}
 \alias{Rohde}
-\title{Functional form  Rohde (2009)}
+\title{Functional form of Lorenz curve :   Rohde (2009)}
 \usage{
 Rohde(p, b)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{b}{numeric}
+\item{b}{numeric, greater than 1}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The  Rohde (2009)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  p*((b-1)/(b-p))}  where \eqn{b > 1}.
 }
 \description{
-Functional form  Rohde (2009)
+Functional form of Lorenz curve :   Rohde (2009)
 }
 \examples{
 Rohde(0.5, 1.5)

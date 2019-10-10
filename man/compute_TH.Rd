@@ -18,7 +18,7 @@ compute_TH(function_form, par1, par2, par3 = NA, par4 = NA)
 \item{par4}{numeric, parameter of the functional form}
 }
 \value{
-The value of the Theil'H index accorting a functional form and its parameters
+The value of the Theil'H index according a functional form and its parameters
 }
 \description{
 Computation of Theil'H index according to a functional form and its parameters
@@ -31,6 +31,9 @@ Optim_LC
 compute_TH(function_form = "KP", par1 = 1, par2 = 1.450156)
 0.1900282
 Optim_LC \%>\% ungroup() \%>\%  rowwise() \%>\% mutate(TH = compute_TH(function_form, par1, par2, par3, par4)) \%>\% select(ID, function_form, TH)
+}
+\references{
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 }
 \seealso{
 \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}

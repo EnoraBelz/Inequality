@@ -22,6 +22,9 @@ mean_binned_GB2(p, q, mu = 1, sigma = 1, nu = 1, tau = 0.5)
 \description{
 Means of the ranges according to a GB2 distribution
 }
+\references{
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+}
 \seealso{
 \code{\link{compute_LC}}
 }

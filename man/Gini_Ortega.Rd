@@ -7,12 +7,12 @@
 Gini_Ortega(a, b)
 }
 \arguments{
-\item{a}{numeric}
+\item{a}{numeric, positive}
 
-\item{b}{numeric}
+\item{b}{numeric, between 0 and 1}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Ortega et al. (1991)
 }
 \description{
 Gini of the functional form  Ortega et al. (1991)

@@ -16,7 +16,7 @@ run_optim_LC(ID, income_cum, population_cum, function_form)
 \item{function_form}{string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"}
 }
 \value{
-A dataframe with functional form, the parameters, the value of the NLS and the Chi-squared statistic
+A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
 }
 \description{
 Optimisation of a parametric Lorenz curve for several functional forms and several areas
@@ -25,4 +25,7 @@ Optimisation of a parametric Lorenz curve for several functional forms and sever
 data("tabulated_income")
 LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
 run_optim_LC(ID = unique(LC_tabulated_income$ID),income_cum = LC_tabulated_income$income_cum, population_cum=LC_tabulated_income$population_cum, function_form = c("KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA", "ROHDE"))
+}
+\references{
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 }

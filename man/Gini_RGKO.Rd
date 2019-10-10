@@ -7,12 +7,12 @@
 Gini_RGKO(a, b)
 }
 \arguments{
-\item{a}{numeric}
+\item{a}{numeric, between 0 and 1}
 
-\item{b}{numeric}
+\item{b}{numeric, greater than 1}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Rasche et al. (1980)
 }
 \description{
 Gini of the functional form  Rasche et al. (1980)

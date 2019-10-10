@@ -16,10 +16,13 @@ optim_LC_function(ID, income_cum, population_cum, function_form)
 \item{function_form}{string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"}
 }
 \value{
-A dataframe with functional form, the parameters, the value of the NLS and the Chi-squared statistic
+A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
 }
 \description{
 Optimisation of a parametric Lorenz curve for several functional forms
+}
+\references{
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 }
 \seealso{
 \code{\link{run_optim_LC}}

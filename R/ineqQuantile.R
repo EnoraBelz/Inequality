@@ -6,6 +6,7 @@
 #' @param sigma numeric, vector of scale parameter values
 #' @param nu numeric, vector of skewness parameter values
 #' @param tau numeric, vector of kurtosis parameter values
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{compute_LC}}
 #' @export
 mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
@@ -18,7 +19,7 @@ mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
   P2=c(p[1:n],1)
   E=rep(NA,n-1)
 
-  f = function(x) (x * dGB2(x, mu, sigma, nu, tau))/(p2 - p1)
+  f = function(x) (x * gamlss.dist::dGB2(x, mu, sigma, nu, tau))/(p2 - p1)
 
 
   for(i in 1:n){
@@ -26,14 +27,14 @@ mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
     q2=Q2[i]
     p1=pGB2(q1,mu,sigma,nu,tau)
     p2=pGB2(q2,mu,sigma,nu,tau)
-    E[i]=integrate(f,lower=q1,upper=q2)$value
+    E[i]= stats:integrate(f,lower=q1,upper=q2)$value
   }
 
   q1= Q1[n+1]
   q2 = Inf
-  p1= pGB2(q1, mu, sigma, nu, tau)
-  p2= pGB2(q2, mu, sigma, nu, tau)
-  itg=try(integrate(f,q1,q2)$value,silent=TRUE)
+  p1= gamlss.dist::pGB2(q1, mu, sigma, nu, tau)
+  p2= gamlss.dist::pGB2(q2, mu, sigma, nu, tau)
+  itg=try(stats::integrate(f,q1,q2)$value,silent=TRUE)
   if(inherits(itg, "try-error")) itg=try(integrate(f,q1,1e8, subdivisions = 100000L)$value,silent=TRUE)
   if(inherits(itg, "try-error")) itg=try(integrate(f,q1,1e7, subdivisions = 100000L)$value,silent=TRUE)
   E[n+1]=itg
@@ -51,9 +52,9 @@ mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
 #' @param nb numeric, number of the interval
 #' @param method string, type of methods ("CondExp" for conditional expectation method of "Midpoint" for midpoint method)
 #' @param whichpareto numeric, probability from which pareto tail is assumed
-#' @return A dataframe with the bounds, the mean, the cumulative income share and the cumulative population share.
+#' @return A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
 #' @seealso \code{\link{run_compute_LC}}
-#' @references Belz (2019), \emph{Estimating Inequality Measure from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @examples
 #' data("tabulated_income")
 #' BelAir5 = tabulated_income[tabulated_income$iris=="Bel Air 5",]
@@ -64,7 +65,7 @@ compute_LC = function(ID, p, bound_min, bound_max, nb, method="CondExp", whichpa
   n = length(ID)
 
   if(method=="CondExp"){
-    x = run_GB_family(ID=ID,
+    x = binequality::run_GB_family(ID=ID,
                       hb = nb,
                       bin_min = bound_min,
                       bin_max = bound_max,
@@ -112,8 +113,8 @@ compute_LC = function(ID, p, bound_min, bound_max, nb, method="CondExp", whichpa
 #' @param nb numeric, number of the interval
 #' @param method string, type of methods ("CondExp" for conditional expectation method of "Midpoint" for midpoint method)
 #' @param whichpareto numeric, probability from which pareto tail is assumed
-#' @return A dataframe with the bounds, the mean, the cumulative income share and the cumulative population share.
-#' @references Belz (2019), \emph{Estimating Inequality Measure from Quantile Data}
+#' @return A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @examples
 #' data("tabulated_income")
 #' run_compute_LC(ID=tabulated_income$iris, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -123,7 +124,7 @@ run_compute_LC = function(ID,p, bound_min, bound_max, nb, method="CondExp", whic
   area = unique(ID)
   res = NA
   for(i in 1:length(area)){
-    data_to_fit = data %>% filter(ID == area[i])
+    data_to_fit = data %>% dply::filter(ID == area[i])
     res=rbind(res,
               compute_LC(ID = data_to_fit$ID,
                          p = data_to_fit$p,
@@ -134,14 +135,14 @@ run_compute_LC = function(ID,p, bound_min, bound_max, nb, method="CondExp", whic
                          whichpareto = whichpareto))
   }
 
-  return(res %>% filter(is.na(ID)==F))}
+  return(res %>% dplyr::filter(is.na(ID)==F))}
 
 
-#' Functional form Kakwani and Podder (1973)
+#' Functional form of Lorenz curve : Kakwani and Podder (1973)
 #' @param p numeric, vector of probabilities
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param a numeric, greater than 1
+#' @param b numeric, positive
+#' @return The Kakwani and Podder (1973)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) = p^a*e^(-b*(1-p))}  where \eqn{b>0} and \eqn{a \ge 1}.
 #' @seealso \code{\link{RGKO}}, \code{\link{Arnold}}, \code{\link{Ortega}}, \code{\link{Chotikapanich}}, \code{\link{Sarabia}}, \code{\link{Rohde}}
 #' @references Kakwani and Podder (1973), \emph{On the estimation of Lorenz curves from grouped observations}
 #' @examples
@@ -151,11 +152,11 @@ run_compute_LC = function(ID,p, bound_min, bound_max, nb, method="CondExp", whic
 KP = function(p,a,b) p^a*exp(-b*(1-p))
 
 
-#' Functional form  Rasche et al. (1980)
+#' Functional form of Lorenz curve : Rasche et al. (1980)
 #' @param p numeric, vector of probabilities
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param a numeric, between 0 and 1
+#' @param b numeric, greater than 1
+#' @return The Rasche et al. (1980)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) = (1- (1-p)^a)^b}  where \eqn{b \ge 1} and \eqn{0 \le a \le 1}.
 #' @seealso \code{\link{KP}}, \code{\link{Arnold}}, \code{\link{Ortega}}, \code{\link{Chotikapanich}}, \code{\link{Sarabia}}, \code{\link{Rohde}}
 #' @references  Rasche et al. (1980), \emph{Functional forms for estimating the Lorenz curve: comment}
 #' @examples
@@ -165,11 +166,11 @@ KP = function(p,a,b) p^a*exp(-b*(1-p))
 RGKO = function(p,a,b) (1-(1-p)^a)^b
 
 
-#' Functional form  Arnold (1986)
+#' Functional form of Lorenz curve : Arnold (1986)
 #' @param p numeric, vector of probabilities
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param a numeric, positive
+#' @param b numeric, positive
+#' @return The Arnold (1986)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  (p*(1 + (a-1)*p))/(1 + (a-1)*p + b*(1-p))}  where \eqn{a, b > 0} and \eqn{a - b < 1}.
 #' @seealso \code{\link{KP}}, \code{\link{RGKO}}, \code{\link{Ortega}}, \code{\link{Chotikapanich}}, \code{\link{Sarabia}}, \code{\link{Rohde}}
 #' @references  Arnold (1986), \emph{A class of hyperbolic Lorenz curves}
 #' @examples
@@ -179,11 +180,11 @@ RGKO = function(p,a,b) (1-(1-p)^a)^b
 Arnold = function(p,a,b) (p*(1 + (a-1)*p))/(1 + (a-1)*p + b*(1-p))
 
 
-#' Functional form  Ortega et al. (1991)
+#' Functional form of Lorenz curve : Ortega et al. (1991)
 #' @param p numeric, vector of probabilities
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param a numeric, positive
+#' @param b numeric, between 0 and 1
+#' @return The Ortega et al. (1991)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  p^a*(1 - (1-p)^b)}  where \eqn{a \ge 0} and \eqn{0 < b <1 }.
 #' @seealso \code{\link{KP}}, \code{\link{RGKO}}, \code{\link{Arnold}},  \code{\link{Chotikapanich}}, \code{\link{Sarabia}}, \code{\link{Rohde}}
 #' @references  Ortega et al. (1991), \emph{A new functional form for estimating Lorenz curves}
 #' @examples
@@ -192,10 +193,10 @@ Arnold = function(p,a,b) (p*(1 + (a-1)*p))/(1 + (a-1)*p + b*(1-p))
 #' @export
 Ortega = function(p,a,b) p^a*(1 - (1-p)^b)
 
-#' Functional form  Chotikapanich (1993)
+#' Functional form of Lorenz curve : Chotikapanich (1993)
 #' @param p numeric, vector of probabilities
-#' @param k numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param k numeric, positive
+#' @return The  Chotikapanich (1993)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  (exp(k*p)-1)/(exp(k)-1)}  where \eqn{k > 0}.
 #' @seealso \code{\link{KP}}, \code{\link{RGKO}}, \code{\link{Arnold}},  \code{\link{Ortega}}, \code{\link{Sarabia}}, \code{\link{Rohde}}
 #' @references  Chotikapanich (1993), \emph{A comparison of alternative functional forms for the Lorenz curve}
 #' @examples
@@ -205,13 +206,13 @@ Ortega = function(p,a,b) p^a*(1 - (1-p)^b)
 Chotikapanich = function(p,k) (exp(k*p)-1)/(exp(k)-1)
 
 
-#' Functional form  Sarabia (1997)
+#'  Functional form of Lorenz curve :  Sarabia (1997)
 #' @param p numeric, vector of probabilities
-#' @param pi1 numeric
-#' @param pi2 numeric
-#' @param a1 numeric
-#' @param a2 numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param pi1 numeric, between 0 and 1
+#' @param pi2 numeric, between 0 and 1
+#' @param a1 numeric, greater than 1
+#' @param a2 numeric, between 0 and 1
+#' @return The  Sarabia (1997)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  pi1*p + pi2*p^a1 + (1 - pi1 - pi2)*(1 - (1-p)^a2)}  where \eqn{0 \le pi1, pi2 \le 1, a1 \ge  1} and \eqn{0 < a2 < 1}.
 #' @seealso \code{\link{KP}}, \code{\link{RGKO}}, \code{\link{Arnold}},  \code{\link{Ortega}}, \code{\link{Chotikapanich}}, \code{\link{Rohde}}
 #' @references  Sarabia (1997), \emph{A hierarchy of Lorenz curves based on the generalized Tukey’s lambda distribution}
 #' @examples
@@ -220,10 +221,10 @@ Chotikapanich = function(p,k) (exp(k*p)-1)/(exp(k)-1)
 #' @export
 Sarabia = function(p, pi1, pi2, a1, a2) pi1*p + pi2*p^a1 + (1 - pi1 - pi2)*(1 - (1-p)^a2)
 
-#' Functional form  Rohde (2009)
+#' Functional form of Lorenz curve :   Rohde (2009)
 #' @param p numeric, vector of probabilities
-#' @param b numeric
-#' @return The value of the Lorenz curve at the point \code{p}
+#' @param b numeric, greater than 1
+#' @return The  Rohde (2009)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  p*((b-1)/(b-p))}  where \eqn{b > 1}.
 #' @seealso \code{\link{KP}}, \code{\link{RGKO}}, \code{\link{Arnold}},  \code{\link{Ortega}}, \code{\link{Chotikapanich}}, \code{\link{Sarabia}}
 #' @references  Rohde (2009), \emph{An alternative functional form for estimating the Lorenz curve}
 #' @examples
@@ -238,7 +239,8 @@ Rohde = function(p, b){p*((b-1)/(b-p))}
 #' @param income_cum numeric, vector of cumulaive income shares
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
-#' @return A dataframe with functional form, the parameters, the value of the NLS and the Chi-squared statistic
+#' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{run_optim_LC}}
 #' @export
 optim_LC = function(ID,income_cum, population_cum, function_form){
@@ -301,7 +303,7 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
     theta0 = c(2)
   }
 
-  opt_chisq = constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,  ui=ui, ci=ci)
+  opt_chisq = stats::constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,  ui=ui, ci=ci, trace = F)
   par = opt_chisq$par
   NLS = opt_chisq$value
   LCtheo = LOI(population_cum,theta=par)
@@ -318,7 +320,8 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
 #' @param income_cum numeric, vector of cumulaive income shares
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
-#' @return A dataframe with functional form, the parameters, the value of the NLS and the Chi-squared statistic
+#' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{run_optim_LC}}
 #' @export
 optim_LC_function = function(ID,income_cum, population_cum, function_form){
@@ -328,7 +331,7 @@ optim_LC_function = function(ID,income_cum, population_cum, function_form){
                                                     income_cum = income_cum ,
                                                     population_cum = population_cum,
                                                     function_form = i))))
-  res = res %>% mutate(ID = zone,
+  res = res %>% dplyr::mutate(ID = zone,
                        function_form = rownames(res))
   return(res)
 }
@@ -339,7 +342,8 @@ optim_LC_function = function(ID,income_cum, population_cum, function_form){
 #' @param income_cum numeric, vector of cumulaive income shares
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
-#' @return A dataframe with functional form, the parameters, the value of the NLS and the Chi-squared statistic
+#' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -350,7 +354,7 @@ run_optim_LC = function(ID,income_cum, population_cum, function_form){
   area = unique(ID)
   res = NA
   for(i in 1:length(area)){
-    data_to_fit = data %>% filter(ID == area[i])
+    data_to_fit = data %>% dplyr::filter(ID == area[i])
     res=rbind(res,
               optim_LC_function(ID = data_to_fit$ID,
                                 income_cum = data_to_fit$income_cum,
@@ -358,8 +362,8 @@ run_optim_LC = function(ID,income_cum, population_cum, function_form){
                                 function_form = function_form))
     print(paste(area[i]))
   }
-  res = res %>% filter(is.na(ID)==F)
-  res = res %>% mutate(par1=as.numeric(par1),
+  res = res %>% dplyr::filter(is.na(ID)==F)
+  res = res %>% dplyr::mutate(par1=as.numeric(par1),
                                            par2=as.numeric(par2),
                                            par3=as.numeric(par3),
                                            par4=as.numeric(par4),
@@ -370,9 +374,9 @@ run_optim_LC = function(ID,income_cum, population_cum, function_form){
 
 
 #' Gini of the functional form  Kakwani and Podder (1973)
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Gini index
+#' @param a numeric, greater than 1
+#' @param b numeric, positive
+#' @return The value of the Gini index of the functional form : Kakwani and Podder (1973)
 #' @seealso \code{\link{Gini_RGKO}}, \code{\link{Gini_Arnold}}, \code{\link{Gini_Ortega}},  \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Sarabia}}, \code{\link{Gini_Rohde}}
 #' @references  Kakwani and Podder (1973), \emph{On the estimation of Lorenz curves from grouped observations}
 #' @examples
@@ -383,9 +387,9 @@ Gini_KP = function(a,b) as.numeric(1 - 2*exp(-b)*fAsianOptions::kummerM(b,1+a,2+
 
 
 #' Gini of the functional form  Rasche et al. (1980)
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Gini index
+#' @param a numeric, between 0 and 1
+#' @param b numeric, greater than 1
+#' @return The value of the Gini index of the functional form : Rasche et al. (1980)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_Arnold}}, \code{\link{Gini_Ortega}},  \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Sarabia}}, \code{\link{Gini_Rohde}}
 #' @references  Rasche et al. (1980), \emph{Functional forms for estimating the Lorenz curve: comment}
 #' @examples
@@ -396,9 +400,9 @@ Gini_RGKO = function(a,b) 1 - 2/a * beta(1/a,b + 1)
 
 
 #' Gini of the functional form  Arnold (1986)
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Gini index
+#' @param a numeric, positive
+#' @param b numeric, positive
+#' @return The value of the Gini index of the functional form : Arnold (1986)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_RGKO}}, \code{\link{Gini_Ortega}},  \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Sarabia}}, \code{\link{Gini_Rohde}}
 #' @references  Arnold (1986), \emph{A class of hyperbolic Lorenz curves}
 #' @examples
@@ -408,9 +412,9 @@ Gini_RGKO = function(a,b) 1 - 2/a * beta(1/a,b + 1)
 Gini_Arnold = function(a,b) b/(b-a+1) + 2*a*b/(b-a+1)^2*(1 + (b+1)/(b-a+1)*log(a/(b+1)))
 
 #' Gini of the functional form  Ortega et al. (1991)
-#' @param a numeric
-#' @param b numeric
-#' @return The value of the Gini index
+#' @param a numeric, positive
+#' @param b numeric, between 0 and 1
+#' @return The value of the Gini index of the functional form : Ortega et al. (1991)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_RGKO}}, \code{\link{Gini_Arnold}},  \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Sarabia}}, \code{\link{Gini_Rohde}}
 #' @references  Ortega et al. (1991),  \emph{A new functional form for estimating Lorenz curves}
 #' @examples
@@ -421,8 +425,8 @@ Gini_Ortega = function(a,b) (a-1)/(a+1) + 2*beta(a+1,b+1)
 
 
 #' Gini of the functional form  Chotikapanich (1993)
-#' @param k numeric
-#' @return The value of the Gini index
+#' @param k numeric, positive
+#' @return The value of the Gini index of the functional form : Chotikapanich (1993)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_RGKO}}, \code{\link{Gini_Arnold}},  \code{\link{Gini_Ortega}}, \code{\link{Gini_Sarabia}}, \code{\link{Gini_Rohde}}
 #' @references  Chotikapanich (1993),  \emph{A comparison of alternative functional forms for the Lorenz curve}
 #' @examples
@@ -432,11 +436,11 @@ Gini_Ortega = function(a,b) (a-1)/(a+1) + 2*beta(a+1,b+1)
 Gini_Chotikapanich = function(k) ((k-2)*exp(k) + (k+2))/(k*(exp(k)-1))
 
 #' Gini of the functional form  Sarabia (1997)
-#' @param pi1 numeric
-#' @param pi2 numeric
-#' @param a1 numeric
-#' @param a2 numeric
-#' @return The value of the Gini index
+#' @param pi1 numeric, between 0 and 1
+#' @param pi2 numeric, between 0 and 1
+#' @param a1 numeric, greater than 1
+#' @param a2 numeric, between 0 and 1
+#' @return The value of the Gini index of the functional form : Sarabia (1997)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_RGKO}}, \code{\link{Gini_Arnold}},  \code{\link{Gini_Ortega}}, \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Rohde}}
 #' @references  Sarabia (1997), \emph{A hierarchy of Lorenz curves based on the generalized Tukey’s lambda distribution}
 #' @examples
@@ -447,9 +451,8 @@ Gini_Sarabia = function(pi1, pi2, a1, a2 ) pi2*(1-2/(1+a1)) - (1-pi1-pi2)*(1-2/(
 
 
 #' Gini of the functional form  Rohde (2009)
-#' @param p numeric, vector of probabilities
-#' @param b numeric
-#' @return The value of the Gini index
+#' @param b numeric, greater than 1
+#' @return The value of the Gini index of the functional form : Rohde (2009)
 #' @seealso \code{\link{Gini_KP}}, \code{\link{Gini_RGKO}}, \code{\link{Gini_Arnold}},  \code{\link{Gini_Ortega}}, \code{\link{Gini_Chotikapanich}}, \code{\link{Gini_Sarabia}}
 #' @references  Rohde (2009), \emph{An alternative functional form for estimating the Lorenz curve}
 #' @examples
@@ -466,7 +469,8 @@ Gini_Rohde = function(b) 2*b*((b-1)*log((b-1)/b)+1) - 1
 #' @param par2 numeric, parameter of the functional form
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
-#' @return The value of the Gini index accorting a functional form and its parameters
+#' @return The value of the Gini index according a functional form and its parameters
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{compute_Pietra}}, \code{\link{compute_TH}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -495,8 +499,9 @@ compute_Gini = function(function_form, par1,par2 = NA,par3 = NA,par4 = NA){
 #' @param par2 numeric, parameter of the functional form
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
-#' @return The value of the Pietra index accorting a functional form and its parameters
+#' @return The value of the Pietra index according a functional form and its parameters
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_TH}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -520,11 +525,6 @@ compute_Pietra = function(function_form, par1, par2, par3=NA, par4=NA){
 }
 
 
-# Lprime:
-# Compute the derivative of a function L at the point x
-# @x : point
-# @L : function
-# @h
 #' Computation of the derivative of a function L at the point x
 #' @param x numeric, point
 #' @param L function
@@ -544,7 +544,8 @@ Lprime=function(x,L,h=1e-5){
 #' @param par2 numeric, parameter of the functional form
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
-#' @return The value of the Theil'L index accorting a functional form and its parameters
+#' @return The value of the Theil'L index according a functional form and its parameters
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -575,7 +576,8 @@ compute_TL = function(function_form, par1, par2, par3=NA, par4=NA){
 #' @param par2 numeric, parameter of the functional form
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
-#' @return The value of the Theil'H index accorting a functional form and its parameters
+#' @return The value of the Theil'H index according a functional form and its parameters
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -607,8 +609,9 @@ compute_TH = function(function_form, par1, par2, par3=NA, par4=NA){
 #' @param par2 numeric, parameter of the functional form
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
-#' @return The value of the topshare accorting a functional form and its parameters
+#' @return The value of the topshare according a functional form and its parameters
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_TH}}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -632,4 +635,4 @@ compute_topshare = function(p, function_form, par1, par2, par3=NA, par4=NA){
 
 #' import HMisc
 #' import knitr
-#' importFrom("tidyverse", "binequality")
+#' importFrom("tidyverse", "binequality","fAsianOptions")

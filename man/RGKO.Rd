@@ -2,22 +2,22 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{RGKO}
 \alias{RGKO}
-\title{Functional form  Rasche et al. (1980)}
+\title{Functional form of Lorenz curve : Rasche et al. (1980)}
 \usage{
 RGKO(p, a, b)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{a}{numeric}
+\item{a}{numeric, between 0 and 1}
 
-\item{b}{numeric}
+\item{b}{numeric, greater than 1}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The Rasche et al. (1980)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) = (1- (1-p)^a)^b}  where \eqn{b \ge 1} and \eqn{0 \le a \le 1}.
 }
 \description{
-Functional form  Rasche et al. (1980)
+Functional form of Lorenz curve : Rasche et al. (1980)
 }
 \examples{
 RGKO(0.5, 0.7, 1.5)

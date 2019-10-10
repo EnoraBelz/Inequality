@@ -23,7 +23,7 @@ compute_LC(ID, p, bound_min, bound_max, nb, method = "CondExp",
 \item{whichpareto}{numeric, probability from which pareto tail is assumed}
 }
 \value{
-A dataframe with the bounds, the mean, the cumulative income share and the cumulative population share.
+A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
 }
 \description{
 Means of the bins according the conditional expectation or midpoint methods
@@ -35,7 +35,7 @@ compute_LC(ID=BelAir5$iris, p=BelAir5$prop_cum_population, bound_min = BelAir5$b
 compute_LC(ID=BelAir5$iris, p=BelAir5$prop_cum_population, bound_min = BelAir5$bound_min, bound_max = BelAir5$bound_max, nb = BelAir5$prop_population, method = "Midpoint")
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measure from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
 }
 \seealso{
 \code{\link{run_compute_LC}}

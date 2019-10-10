@@ -7,12 +7,12 @@
 Gini_Arnold(a, b)
 }
 \arguments{
-\item{a}{numeric}
+\item{a}{numeric, positive}
 
-\item{b}{numeric}
+\item{b}{numeric, positive}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Arnold (1986)
 }
 \description{
 Gini of the functional form  Arnold (1986)

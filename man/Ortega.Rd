@@ -2,22 +2,22 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{Ortega}
 \alias{Ortega}
-\title{Functional form  Ortega et al. (1991)}
+\title{Functional form of Lorenz curve : Ortega et al. (1991)}
 \usage{
 Ortega(p, a, b)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{a}{numeric}
+\item{a}{numeric, positive}
 
-\item{b}{numeric}
+\item{b}{numeric, between 0 and 1}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The Ortega et al. (1991)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  p^a*(1 - (1-p)^b)}  where \eqn{a \ge 0} and \eqn{0 < b <1 }.
 }
 \description{
-Functional form  Ortega et al. (1991)
+Functional form of Lorenz curve : Ortega et al. (1991)
 }
 \examples{
 Ortega(0.5, 0.5, 0.7)

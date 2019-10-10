@@ -7,16 +7,16 @@
 Gini_Sarabia(pi1, pi2, a1, a2)
 }
 \arguments{
-\item{pi1}{numeric}
+\item{pi1}{numeric, between 0 and 1}
 
-\item{pi2}{numeric}
+\item{pi2}{numeric, between 0 and 1}
 
-\item{a1}{numeric}
+\item{a1}{numeric, greater than 1}
 
-\item{a2}{numeric}
+\item{a2}{numeric, between 0 and 1}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Sarabia (1997)
 }
 \description{
 Gini of the functional form  Sarabia (1997)

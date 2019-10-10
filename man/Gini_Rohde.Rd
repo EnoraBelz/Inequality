@@ -7,12 +7,10 @@
 Gini_Rohde(b)
 }
 \arguments{
-\item{b}{numeric}
-
-\item{p}{numeric, vector of probabilities}
+\item{b}{numeric, greater than 1}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Rohde (2009)
 }
 \description{
 Gini of the functional form  Rohde (2009)

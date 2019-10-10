@@ -2,20 +2,20 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{Chotikapanich}
 \alias{Chotikapanich}
-\title{Functional form  Chotikapanich (1993)}
+\title{Functional form of Lorenz curve : Chotikapanich (1993)}
 \usage{
 Chotikapanich(p, k)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{k}{numeric}
+\item{k}{numeric, positive}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The  Chotikapanich (1993)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) =  (exp(k*p)-1)/(exp(k)-1)}  where \eqn{k > 0}.
 }
 \description{
-Functional form  Chotikapanich (1993)
+Functional form of Lorenz curve : Chotikapanich (1993)
 }
 \examples{
 Chotikapanich(0.5, 2.2)

@@ -7,12 +7,12 @@
 Gini_KP(a, b)
 }
 \arguments{
-\item{a}{numeric}
+\item{a}{numeric, greater than 1}
 
-\item{b}{numeric}
+\item{b}{numeric, positive}
 }
 \value{
-The value of the Gini index
+The value of the Gini index of the functional form : Kakwani and Podder (1973)
 }
 \description{
 Gini of the functional form  Kakwani and Podder (1973)

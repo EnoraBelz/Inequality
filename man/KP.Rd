@@ -2,22 +2,22 @@
 % Please edit documentation in R/ineqQuantile.R
 \name{KP}
 \alias{KP}
-\title{Functional form Kakwani and Podder (1973)}
+\title{Functional form of Lorenz curve : Kakwani and Podder (1973)}
 \usage{
 KP(p, a, b)
 }
 \arguments{
 \item{p}{numeric, vector of probabilities}
 
-\item{a}{numeric}
+\item{a}{numeric, greater than 1}
 
-\item{b}{numeric}
+\item{b}{numeric, positive}
 }
 \value{
-The value of the Lorenz curve at the point \code{p}
+The Kakwani and Podder (1973)'s functional form of Lorenz curve at the point \code{p} \deqn{L(p) = p^a*e^(-b*(1-p))}  where \eqn{b>0} and \eqn{a \ge 1}.
 }
 \description{
-Functional form Kakwani and Podder (1973)
+Functional form of Lorenz curve : Kakwani and Podder (1973)
 }
 \examples{
 KP(0.5, 0.9, 1.5)
