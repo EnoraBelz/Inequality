@@ -303,7 +303,8 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
     theta0 = c(2)
   }
 
-  opt_chisq = stats::constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,  ui=ui, ci=ci, trace = F)
+  opt_chisq = stats::constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,
+                                 ui=ui, ci=ci, control=list(trace=FALSE))
   par = opt_chisq$par
   NLS = opt_chisq$value
   LCtheo = LOI(population_cum,theta=par)
