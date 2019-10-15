@@ -1,4 +1,4 @@
-Estimating Inequality Measures from Quantile Data
+﻿Estimating Inequality Measures from Quantile Data
 ================
 Enora Belz (<enora.belz@univ-rennes1.fr>)
 August 2019
@@ -13,7 +13,6 @@ devtools::install_github("EnoraBelz/Inequality")
 library(inequalityQuantile)
 
 library(tidyverse)
-library(binequality)
 ```
 
 Parisian iris data : Bel Air 5
