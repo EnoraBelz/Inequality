@@ -304,7 +304,7 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
   }
 
   opt_chisq = stats::constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,
-                                 ui=ui, ci=ci, control=list(trace=FALSE))
+                                 ui=ui, ci=ci, control = list(fnscale=-1))
   par = opt_chisq$par
   NLS = opt_chisq$value
   LCtheo = LOI(population_cum,theta=par)
@@ -636,4 +636,4 @@ compute_topshare = function(p, function_form, par1, par2, par3=NA, par4=NA){
 
 #' import HMisc
 #' import knitr
-#' importFrom("tidyverse", "binequality","fAsianOptions")
+#' importFrom("dplyr", "binequality","fAsianOptions")
