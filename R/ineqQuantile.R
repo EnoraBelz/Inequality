@@ -124,7 +124,7 @@ run_compute_LC = function(ID,p, bound_min, bound_max, nb, method="CondExp", whic
   area = unique(ID)
   res = NA
   for(i in 1:length(area)){
-    data_to_fit = data %>% dply::filter(ID == area[i])
+    data_to_fit = data %>% dplyr::filter(ID == area[i])
     res=rbind(res,
               compute_LC(ID = data_to_fit$ID,
                          p = data_to_fit$p,
@@ -304,7 +304,7 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
   }
 
   opt_chisq = stats::constrOptim(theta=theta0, f=function(x) logLik(x)$NLS, grad=NULL,
-                                 ui=ui, ci=ci)
+                                 ui=ui, ci=ci, control=list(trace=F))
   par = opt_chisq$par
   NLS = opt_chisq$value
   LCtheo = LOI(population_cum,theta=par)
@@ -327,7 +327,7 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
 #' @export
 optim_LC_function = function(ID,income_cum, population_cum, function_form){
   zone = unique(ID)
-  res = as.data.frame(t(sapply(function_form,
+  res = as.data.frame(t(base::sapply(function_form,
                                function(i) optim_LC(ID = ID,
                                                     income_cum = income_cum ,
                                                     population_cum = population_cum,
@@ -532,7 +532,7 @@ compute_Pietra = function(function_form, par1, par2, par3=NA, par4=NA){
 #' @param h numeric
 #' @export
 Lprime=function(x,L,h=1e-5){
-  d= sapply(x, function(x)
+  d= base::sapply(x, function(x)
     if(x < h)  (L(x+h)-L(x))/h
     else if (x>(1-h)) (L(x)-L(x-h))/h
     else if ((x>=h)&(x<=(1-h))) (L(x+h)-L(x-h))/(2*h))
@@ -636,4 +636,4 @@ compute_topshare = function(p, function_form, par1, par2, par3=NA, par4=NA){
 
 #' import HMisc
 #' import knitr
-#' importFrom("dplyr", "binequality","fAsianOptions","gamlss.dist")
+#' importFrom("dplyr", "binequality","fAsianOptions","gamlss.dist", "stats")
