@@ -636,4 +636,4 @@ compute_topshare = function(p, function_form, par1, par2, par3=NA, par4=NA){
 
 #' import HMisc
 #' import knitr
-#' importFrom("dplyr", "binequality","fAsianOptions")
+#' importFrom("dplyr", "binequality","fAsianOptions","gamlss.dist")
