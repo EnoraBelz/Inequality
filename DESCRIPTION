@@ -13,4 +13,5 @@ Imports:
     fAsianOptions,
     binequality,
     dplyr,
-    gamlss.dist
+    gamlss.dist,
+    gamlss
