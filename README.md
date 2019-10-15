@@ -13,6 +13,7 @@ devtools::install_github("EnoraBelz/Inequality")
 library(inequalityQuantile)
 
 library(tidyverse)
+library(binequality)
 ```
 
 Parisian iris data : Bel Air 5
