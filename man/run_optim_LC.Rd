@@ -27,5 +27,5 @@ LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$
 run_optim_LC(ID = unique(LC_tabulated_income$ID),income_cum = LC_tabulated_income$income_cum, population_cum=LC_tabulated_income$population_cum, function_form = c("KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA", "ROHDE"))
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 }

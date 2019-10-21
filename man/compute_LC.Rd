@@ -35,7 +35,7 @@ compute_LC(ID=BelAir5$iris, p=BelAir5$prop_cum_population, bound_min = BelAir5$b
 compute_LC(ID=BelAir5$iris, p=BelAir5$prop_cum_population, bound_min = BelAir5$bound_min, bound_max = BelAir5$bound_max, nb = BelAir5$prop_population, method = "Midpoint")
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 }
 \seealso{
 \code{\link{run_compute_LC}}

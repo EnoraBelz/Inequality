@@ -6,7 +6,7 @@
 #' @param sigma numeric, vector of scale parameter values
 #' @param nu numeric, vector of skewness parameter values
 #' @param tau numeric, vector of kurtosis parameter values
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{compute_LC}}
 #' @export
 mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
@@ -54,7 +54,7 @@ mean_binned_GB2 = function(p,q, mu = 1, sigma = 1, nu = 1, tau = 0.5){
 #' @param whichpareto numeric, probability from which pareto tail is assumed
 #' @return A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
 #' @seealso \code{\link{run_compute_LC}}
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @examples
 #' data("tabulated_income")
 #' BelAir5 = tabulated_income[tabulated_income$iris=="Bel Air 5",]
@@ -114,7 +114,7 @@ compute_LC = function(ID, p, bound_min, bound_max, nb, method="CondExp", whichpa
 #' @param method string, type of methods ("CondExp" for conditional expectation method of "Midpoint" for midpoint method)
 #' @param whichpareto numeric, probability from which pareto tail is assumed
 #' @return A dataframe with the bounds, the means, the cumulative income shares and the cumulative population shares.
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @examples
 #' data("tabulated_income")
 #' run_compute_LC(ID=tabulated_income$iris, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -240,7 +240,7 @@ Rohde = function(p, b){p*((b-1)/(b-p))}
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
 #' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{run_optim_LC}}
 #' @export
 optim_LC = function(ID,income_cum, population_cum, function_form){
@@ -322,7 +322,7 @@ optim_LC = function(ID,income_cum, population_cum, function_form){
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
 #' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{run_optim_LC}}
 #' @export
 optim_LC_function = function(ID,income_cum, population_cum, function_form){
@@ -344,7 +344,7 @@ optim_LC_function = function(ID,income_cum, population_cum, function_form){
 #' @param population_cum numeric, vector of cumulative population shares
 #' @param function_form string, functional form in "KP", "RGKO", "ARNOLD", "CHOTIKAPANICH", "SARABIA", "ORTEGA" and "ROHDE"
 #' @return A dataframe with the functional forms, the parameters, the value of the NLS and the Chi-squared statistic.
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -471,7 +471,7 @@ Gini_Rohde = function(b) 2*b*((b-1)*log((b-1)/b)+1) - 1
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
 #' @return The value of the Gini index according a functional form and its parameters
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{compute_Pietra}}, \code{\link{compute_TH}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -502,7 +502,7 @@ compute_Gini = function(function_form, par1,par2 = NA,par3 = NA,par4 = NA){
 #' @param par4 numeric, parameter of the functional form
 #' @return The value of the Pietra index according a functional form and its parameters
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_TH}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
@@ -546,7 +546,7 @@ Lprime=function(x,L,h=1e-5){
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
 #' @return The value of the Theil'L index according a functional form and its parameters
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -578,7 +578,7 @@ compute_TL = function(function_form, par1, par2, par3=NA, par4=NA){
 #' @param par3 numeric, parameter of the functional form
 #' @param par4 numeric, parameter of the functional form
 #' @return The value of the Theil'H index according a functional form and its parameters
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_topshare}}
 #' @examples
 #' data("tabulated_income")
@@ -612,7 +612,7 @@ compute_TH = function(function_form, par1, par2, par3=NA, par4=NA){
 #' @param par4 numeric, parameter of the functional form
 #' @return The value of the topshare according a functional form and its parameters
 #' @seealso \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_TH}}
-#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+#' @references Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 #' @examples
 #' data("tabulated_income")
 #' LC_tabulated_income = run_compute_LC(ID=tabulated_income$ID, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")

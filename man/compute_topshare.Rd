@@ -35,7 +35,7 @@ compute_topshare(p = 0.95, function_form = "KP", par1 = 1, par2 = 1.450156)
 Optim_LC \%>\% ungroup() \%>\%  rowwise() \%>\% mutate(topshare95= compute_topshare(p=0.95, function_form, par1, par2, par3, par4)) \%>\% select(ID, function_form, topshare95)
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 }
 \seealso{
 \code{\link{compute_Gini}}, \code{\link{compute_Pietra}}, \code{\link{compute_TL}}, \code{\link{compute_TH}}

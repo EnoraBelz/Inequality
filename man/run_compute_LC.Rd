@@ -33,5 +33,5 @@ data("tabulated_income")
 run_compute_LC(ID=tabulated_income$iris, p=tabulated_income$prop_cum_population, bound_min = tabulated_income$bound_min, bound_max = tabulated_income$bound_max, nb = tabulated_income$prop_population, method = "CondExp")
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 }

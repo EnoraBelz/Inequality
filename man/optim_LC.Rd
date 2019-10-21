@@ -22,7 +22,7 @@ A dataframe with the functional forms, the parameters, the value of the NLS and 
 Optimisation of a parametric Lorenz curve
 }
 \references{
-Belz (2019), \emph{Estimating Inequality Measures from Quantile Data}
+Belz (2019), \emph{Estimating Inequality Measures from Quantile Data} \url{https://halshs.archives-ouvertes.fr/halshs-02320110}
 }
 \seealso{
 \code{\link{run_optim_LC}}
