@@ -1,7 +1,10 @@
 ﻿Estimating Inequality Measures from Quantile Data
 ================
 Enora Belz (<enora.belz@univ-rennes1.fr>)
+
 August 2019
+
+Online appendix of the article "Estimating Inequality Measures from Quantile Data" (<https://halshs.archives-ouvertes.fr/halshs-02320110>)
 
 ### Library
 
